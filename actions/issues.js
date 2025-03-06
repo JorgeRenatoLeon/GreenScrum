@@ -38,6 +38,8 @@ export async function createIssue(projectId, data) {
 
   const newOrder = lastIssue ? lastIssue.order + 1 : 0;
 
+  console.log("Data being passed to createIssue:", data); // Ensure this line is present
+
   const issue = await db.issue.create({
     data: {
       title: data.title,
@@ -47,8 +49,9 @@ export async function createIssue(projectId, data) {
       projectId: projectId,
       sprintId: data.sprintId,
       reporterId: user.id,
-      assigneeId: data.assigneeId || null, // Add this line
+      assigneeId: data.assigneeId || null,
       order: newOrder,
+      sustainabilityDimensions: data.sustainabilityDimensions, // Ensure this line is present
     },
     include: {
       assignee: true,
@@ -57,30 +60,6 @@ export async function createIssue(projectId, data) {
   });
 
   return issue;
-}
-
-export async function updateIssueOrder(updatedIssues) {
-  const { userId, orgId } = auth();
-
-  if (!userId || !orgId) {
-    throw new Error("Unauthorized");
-  }
-
-  // Start a transaction
-  await db.$transaction(async (prisma) => {
-    // Update each issue
-    for (const issue of updatedIssues) {
-      await prisma.issue.update({
-        where: { id: issue.id },
-        data: {
-          status: issue.status,
-          order: issue.order,
-        },
-      });
-    }
-  });
-
-  return { success: true };
 }
 
 export async function deleteIssue(issueId) {

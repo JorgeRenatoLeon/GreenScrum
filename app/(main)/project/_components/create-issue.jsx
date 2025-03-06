@@ -24,6 +24,15 @@ import useFetch from "@/hooks/use-fetch";
 import { createIssue } from "@/actions/issues";
 import { getOrganizationUsers } from "@/actions/organizations";
 import { issueSchema } from "@/app/lib/validators";
+import MultiSelect from "@/components/ui/multi-select"; // Import the MultiSelect component
+
+const sustainabilityDimensionsOptions = [
+  { value: "INDIVIDUAL", label: "Individual" },
+  { value: "ENVIRONMENTAL", label: "Environmental" },
+  { value: "SOCIAL", label: "Social" },
+  { value: "ECONOMIC", label: "Economic" },
+  { value: "TECHNICAL", label: "Technical" },
+];
 
 export default function IssueCreationDrawer({
   isOpen,
@@ -59,6 +68,7 @@ export default function IssueCreationDrawer({
       priority: "MEDIUM",
       description: "",
       assigneeId: "",
+      sustainabilityDimensions: [],
     },
   });
 
@@ -183,6 +193,32 @@ export default function IssueCreationDrawer({
                 </Select>
               )}
             />
+          </div>
+
+          <div>
+            <label
+              htmlFor="sustainabilityDimensions"
+              className="block text-sm font-medium mb-1"
+            >
+              Sustainability Dimensions
+            </label>
+            <Controller
+              name="sustainabilityDimensions"
+              control={control}
+              render={({ field }) => (
+                <MultiSelect
+                  options={sustainabilityDimensionsOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                  labelledBy="Select dimensions"
+                />
+              )}
+            />
+            {errors.sustainabilityDimensions && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.sustainabilityDimensions.message}
+              </p>
+            )}
           </div>
 
           {error && <p className="text-red-500 mt-2">{error.message}</p>}
