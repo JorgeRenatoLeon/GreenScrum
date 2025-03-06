@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SustainabilityDimension } from "@prisma/client";
 
 export const projectSchema = z.object({
   name: z
@@ -27,4 +28,7 @@ export const issueSchema = z.object({
   assigneeId: z.string().cuid("Please select assignee"),
   description: z.string().optional(),
   priority: z.enum(["LOW", "MEDIUM", "HIGH", "URGENT"]),
+  sustainabilityDimensions: z.array(
+    z.nativeEnum(SustainabilityDimension)
+  ).optional(),
 });
