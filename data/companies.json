@@ -1,42 +1,67 @@
 [
   {
-    "name": "amazon",
-    "path": "/companies/amazon.svg",
+    "name": "goal1",
+    "path": "/companies/goal1.png",
     "id": 1
   },
   {
-    "name": "atlassian",
-    "path": "/companies/atlassian.svg",
+    "name": "goal2",
+    "path": "/companies/goal2.png",
     "id": 2
   },
   {
-    "name": "google",
-    "path": "/companies/google.webp",
+    "name": "goal3",
+    "path": "/companies/goal3.png",
     "id": 3
   },
   {
-    "name": "ibm",
-    "path": "/companies/ibm.svg",
+    "name": "goal4",
+    "path": "/companies/goal4.png",
     "id": 4
   },
   {
-    "name": "meta",
-    "path": "/companies/meta.svg",
+    "name": "goal5",
+    "path": "/companies/goal5.png",
     "id": 5
   },
   {
-    "name": "microsoft",
-    "path": "/companies/microsoft.webp",
+    "name": "goal6",
+    "path": "/companies/goal6.png",
     "id": 6
   },
   {
-    "name": "netflix",
-    "path": "/companies/netflix.png",
+    "name": "goal7",
+    "path": "/companies/goal7.png",
     "id": 7
   },
   {
-    "name": "uber",
-    "path": "/companies/uber.svg",
+    "name": "goal8",
+    "path": "/companies/goal8.png",
     "id": 8
+  },
+  {
+    "name": "goal9",
+    "path": "/companies/goal9.png",
+    "id": 9
+  },
+  {
+    "name": "goal10",
+    "path": "/companies/goal10.png",
+    "id": 10
+  },
+  {
+    "name": "goal11",
+    "path": "/companies/goal11.png",
+    "id": 11
+  },
+  {
+    "name": "goal12",
+    "path": "/companies/goal12.jpg",
+    "id": 12
+  },
+  {
+    "name": "goal13",
+    "path": "/companies/goal13.png",
+    "id": 13
   }
 ]

@@ -83,7 +83,7 @@ export default function CreateProjectPage() {
           <Input
             id="name"
             {...register("name")}
-            className="bg-slate-950"
+            className="bg-white text-black"
             placeholder="Project Name"
           />
           {errors.name && (
@@ -94,7 +94,7 @@ export default function CreateProjectPage() {
           <Input
             id="key"
             {...register("key")}
-            className="bg-slate-950"
+            className="bg-white text-black"
             placeholder="Project Key (Ex: RCYT)"
           />
           {errors.key && (
@@ -105,7 +105,7 @@ export default function CreateProjectPage() {
           <Textarea
             id="description"
             {...register("description")}
-            className="bg-slate-950 h-28"
+            className="bg-white text-black"
             placeholder="Project Description"
           />
           {errors.description && (
@@ -121,7 +121,8 @@ export default function CreateProjectPage() {
           type="submit"
           size="lg"
           disabled={loading}
-          className="bg-blue-500 text-white"
+          variant="destructive"
+          className="text-white"
         >
           {loading ? "Creating..." : "Create Project"}
         </Button>

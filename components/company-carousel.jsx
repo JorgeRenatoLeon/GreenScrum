@@ -11,20 +11,20 @@ const CompanyCarousel = () => {
     <Carousel
       plugins={[
         Autoplay({
-          delay: 2000,
+          delay: 1000,
         }),
       ]}
       className="w-full py-10"
     >
-      <CarouselContent className="flex gap-5 sm:gap-20 items-center">
+      <CarouselContent className="flex gap-5 sm:gap-10 items-center">
         {companies.map(({ name, id, path }) => (
           <CarouselItem key={id} className="basis-1/3 lg:basis-1/6 ">
             <Image
               src={path}
               alt={name}
-              width={200}
-              height={56}
-              className="h-9 sm:h-14 w-auto object-contain"
+              width={600}
+              height={556}
+              className="h-[10rem] w-auto object-contain"
             />
           </CarouselItem>
         ))}
