@@ -40,6 +40,8 @@ export async function createIssue(projectId, data) {
 
   console.log("Data being passed to createIssue:", data); // Ensure this line is present
 
+  console.log("Data being passed to Prisma:", data.sustainabilityDimensions);
+  
   const issue = await db.issue.create({
     data: {
       title: data.title,
@@ -51,13 +53,14 @@ export async function createIssue(projectId, data) {
       reporterId: user.id,
       assigneeId: data.assigneeId || null,
       order: newOrder,
-      sustainabilityDimensions: data.sustainabilityDimensions, // Ensure this line is present
+      sustainabilityDimensions: data.sustainabilityDimensions || [], // Ensure this is passed correctly
     },
     include: {
       assignee: true,
       reporter: true,
     },
   });
+  
 
   return issue;
 }
