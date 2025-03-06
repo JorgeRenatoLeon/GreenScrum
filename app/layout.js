@@ -20,15 +20,15 @@ export default function RootLayout({ children }) {
       appearance={{
         baseTheme: shadesOfPurple,
         variables: {
-          colorPrimary: "#3b82f6",
-          colorBackground: "#1a202c",
-          colorInputBackground: "#2D3748",
-          colorInputText: "#F3F4F6",
+          colorPrimary: "#23c821fc",
+          colorBackground: "#487d4d",
+          colorInputBackground: "#487d4d",
+          colorInputText: "#b6e0c0",
         },
         elements: {
-          formButtonPrimary: "bg-purple-600 hover:bg-purple-700 text-white",
+          formButtonPrimary: "bg-green-600 hover:bg-green-700 text-white",
           card: "bg-gray-800",
-          headerTitle: "text-blue-400",
+          headerTitle: "text-green-400",
           headerSubtitle: "text-gray-400",
         },
       }}
@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
             <Toaster richColors />
             <footer className="bg-gray-900 py-12">
               <div className="container mx-auto px-4 text-center text-gray-200">
-                <p>Made with 💗 by RoadsideCoder</p>
+                <p>Made with 💗 by GreenScrum;</p>
               </div>
             </footer>
           </ThemeProvider>

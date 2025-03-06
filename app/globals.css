@@ -28,7 +28,7 @@ body {
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 178.5 52.63% 29.8%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
@@ -55,7 +55,7 @@ body {
     --muted-foreground: 0 0% 63.9%;
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 178.5 52.63% 29.8%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
@@ -87,16 +87,20 @@ body {
 } */
 
 .animated-dotted-background {
-  background-color: #0a111f;
-  background-image: radial-gradient(#4a5568 1px, transparent 1px);
-  background-size: 30px 30px;
-  /* animation: moveDots 10s linear infinite; */
+  background-image: url('/background.png');
+  background-size: cover;
 }
+
+
+
 
 @layer utilities {
   .gradient-title {
-    @apply font-extrabold bg-gradient-to-br from-blue-500 via-blue-100 to-blue-400 bg-clip-text tracking-tighter text-transparent pr-2 pb-2;
+    @apply font-extrabold bg-gradient-to-br from-blue-800 via-green-400 to-blue-800 bg-clip-text tracking-tighter text-transparent pr-2 pb-2;
+    background-size: 200% 200%; /* To allow the gradient to expand */
+    background-position: center; /* Align the gradient towards the center */
   }
+  
 }
 
 .wmde-markdown ul {
