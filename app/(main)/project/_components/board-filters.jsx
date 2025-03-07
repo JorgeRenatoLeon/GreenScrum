@@ -76,7 +76,7 @@ export default function BoardFilters({ issues, onFilterChange }) {
     <div className="space-y-4">
       <div className="flex flex-col pr-2 sm:flex-row gap-4 sm:gap-6 mt-6 text-black">
         <Input
-          className="w-full sm:w-72 text-black"
+          className="w-full sm:w-72 text-black border rounded-md bg-white" // Added border and padding
           placeholder="Search issues..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -98,7 +98,7 @@ export default function BoardFilters({ issues, onFilterChange }) {
                   }}
                   onClick={() => toggleAssignee(assignee.id)}
                 >
-                  <Avatar className="h-10 w-10">
+                  <Avatar className="h-10 w-10 border border-gray-300"> 
                     <AvatarImage src={assignee.imageUrl} />
                     <AvatarFallback>{assignee.name[0]}</AvatarFallback>
                   </Avatar>
@@ -108,8 +108,9 @@ export default function BoardFilters({ issues, onFilterChange }) {
           </div>
         </div>
 
-        <Select value={selectedPriority} onValueChange={setSelectedPriority} className=" bg-blue">
-          <SelectTrigger className="w-full sm:w-52">
+        {/* Select for Priority with Border */}
+        <Select value={selectedPriority} onValueChange={setSelectedPriority} className="border rounded-md p-2">
+          <SelectTrigger className="w-full sm:w-52 border rounded-md p-2 text-black bg-white ">
             <SelectValue placeholder="Select priority" />
           </SelectTrigger>
           <SelectContent>
@@ -121,18 +122,21 @@ export default function BoardFilters({ issues, onFilterChange }) {
           </SelectContent>
         </Select>
 
+        {/* MultiSelect for Sustainability Dimensions with Border */}
         <MultiSelect
           options={sustainabilityDimensionsOptions}
           value={selectedDimensions}
           onChange={setSelectedDimensions}
           labelledBy="Select dimensions"
+          className="border rounded-md p-2 text-black"  // Added border
         />
 
+        {/* Clear Filters Button */}
         {isFiltersApplied && (
           <Button
             variant="ghost"
             onClick={clearFilters}
-            className="flex items-center"
+            className="flex items-center border rounded-md p-2"
           >
             <X className="mr-2 h-4 w-4" /> Clear Filters
           </Button>

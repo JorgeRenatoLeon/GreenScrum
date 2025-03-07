@@ -56,34 +56,34 @@ export default function IssueCard({
   return (
     <>
       <Card
-        className="cursor-pointer hover:shadow-md transition-shadow"
-        onClick={() => setIsDialogOpen(true)}
-      >
-        <CardHeader
-          className={`border-t-2 ${priorityColor[issue.priority]} rounded-lg`}
-        >
-          <CardTitle>{issue.title}</CardTitle>
-        </CardHeader>
+  className="cursor-pointer hover:shadow-md transition-shadow bg-white"  
+  onClick={() => setIsDialogOpen(true)}
+>
+  <CardHeader
+    className={`border-t-2 ${priorityColor[issue.priority]} rounded-lg`}
+  >
+    <CardTitle>{issue.title}</CardTitle>
+  </CardHeader>
 
-        <CardContent className="flex gap-2 -mt-3">
-          {showStatus && <Badge>{issue.status}</Badge>}
-          <Badge variant="outline" className="-ml-1">
-            {issue.priority}
-          </Badge>
-          <div className="flex gap-1">
-            {issue.sustainabilityDimensions.map((dimension) => (
-              <span key={dimension} title={dimension}>
-                {dimensionIcons[dimension]}
-              </span>
-            ))}
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col items-start space-y-3">
-          <UserAvatar user={issue.assignee} />
+  <CardContent className="flex gap-2 -mt-3">
+    {showStatus && <Badge>{issue.status}</Badge>}
+    <Badge variant="outline" className="-ml-1">
+      {issue.priority}
+    </Badge>
+    <div className="flex gap-1">
+      {issue.sustainabilityDimensions.map((dimension) => (
+        <span key={dimension} title={dimension}>
+          {dimensionIcons[dimension]}
+        </span>
+      ))}
+    </div>
+  </CardContent>
+  <CardFooter className="flex flex-col items-start space-y-3">
+    <UserAvatar user={issue.assignee} />
 
-          <div className="text-xs text-gray-400 w-full">Created {created}</div>
-        </CardFooter>
-      </Card>
+    <div className="text-xs text-gray-400 w-full">Created {created}</div>
+  </CardFooter>
+</Card>
 
       {isDialogOpen && (
         <IssueDetailsDialog
