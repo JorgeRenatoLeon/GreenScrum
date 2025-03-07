@@ -236,7 +236,6 @@ export default function ReviewPage() {
                                         >
                                             {isSubmitting ? (
                                                 <div className="flex items-center gap-2">
-                                                    <Spinner className="w-4 h-4" /> {/* Add a spinner */}
                                                     Submitting...
                                                 </div>
                                             ) : (

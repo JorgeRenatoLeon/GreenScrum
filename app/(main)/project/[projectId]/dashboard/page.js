@@ -41,8 +41,7 @@ export default function SprintCreationForm({
     register,
     control,
     handleSubmit,
-    formState: { errors, isValid = false },
-    watch,
+    formState: { errors, isValid = false }
   } = useForm({
     resolver: zodResolver(sprintSchema),
     defaultValues: {
