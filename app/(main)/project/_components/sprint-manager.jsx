@@ -10,21 +10,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-
 import { BarLoader } from "react-spinners";
 import { formatDistanceToNow, isAfter, isBefore, format } from "date-fns";
-
-import useFetch from "@/hooks/use-fetch";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import useFetch from "@/hooks/use-fetch";
 import { updateSprintStatus } from "@/actions/sprints";
 
-export default function SprintManager({
-  sprint,
-  setSprint,
-  sprints,
-  projectId,
-}) {
+export default function SprintManager({ sprint, setSprint, sprints, projectId }) {
   const [status, setStatus] = useState(sprint.status);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -42,7 +35,6 @@ export default function SprintManager({
 
   const canStart =
     isBefore(now, endDate) && isAfter(now, startDate) && status === "PLANNED";
-
   const canEnd = status === "ACTIVE";
 
   const handleStatusChange = async (newStatus) => {
@@ -125,7 +117,16 @@ export default function SprintManager({
             End Sprint
           </Button>
         )}
+
+        {/* Button to navigate to the API result page */}
+        <Button
+          onClick={() => router.push("/api-result")}
+          className="bg-blue-500 text-white"
+        >
+          View API Result
+        </Button>
       </div>
+
       {loading && <BarLoader width={"100%"} className="mt-2" color="#36d7b7" />}
       {getStatusText() && (
         <Badge variant="" className="mt-3 ml-1 self-start">
