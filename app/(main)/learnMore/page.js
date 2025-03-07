@@ -22,7 +22,7 @@ export default function ICTSustainability() {
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center">What is Sustainability?</h2>
           <p className="text-lg text-gray-700 text-center mt-4 max-w-3xl mx-auto">
-            Sustainability is about meeting present needs without compromising future generations' ability to meet theirs.
+            Sustainability is about meeting present needs without compromising future generations&apos; ability to meet theirs.
           </p>
           <div className="flex justify-center mt-8">
             <Image
