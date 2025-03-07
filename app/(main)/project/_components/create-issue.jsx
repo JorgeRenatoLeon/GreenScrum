@@ -83,8 +83,16 @@ export default function IssueCreationDialog({
   }, [isOpen, orgId]);
 
   const onSubmit = async (data) => {
-    await createIssueFn(projectId, {
+    // Parse storyPoints and sustainabilityPoints as numbers
+    const parsedData = {
       ...data,
+      storyPoints: data.storyPoints ? parseInt(data.storyPoints, 10) : null,
+      sustainabilityPoints: data.sustainabilityPoints ? parseInt(data.sustainabilityPoints, 10) : null,
+    };
+
+    console.log("Submitting data:", parsedData); // Debugging statement
+    await createIssueFn(projectId, {
+      ...parsedData,
       status,
       sprintId,
     });
@@ -232,18 +240,12 @@ export default function IssueCreationDialog({
             >
               Story Points
             </label>
-            <Controller
-              name="storyPoints"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  type="number"
-                  min="0"
-                  max="10"
-                  id="storyPoints"
-                  {...field}
-                />
-              )}
+            <Input
+              type="number"
+              min="0"
+              max="10"
+              id="storyPoints"
+              {...register("storyPoints", { valueAsNumber: true })}
             />
             {errors.storyPoints && (
               <p className="text-red-500 text-sm mt-1">
@@ -259,18 +261,12 @@ export default function IssueCreationDialog({
             >
               Sustainability Points
             </label>
-            <Controller
-              name="sustainabilityPoints"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  type="number"
-                  min="0"
-                  max="10"
-                  id="sustainabilityPoints"
-                  {...field}
-                />
-              )}
+            <Input
+              type="number"
+              min="0"
+              max="10"
+              id="sustainabilityPoints"
+              {...register("sustainabilityPoints", { valueAsNumber: true })}
             />
             {errors.sustainabilityPoints && (
               <p className="text-red-500 text-sm mt-1">
@@ -286,7 +282,10 @@ export default function IssueCreationDialog({
             >
               Acceptance Criteria
             </label>
-            <Input id="acceptanceCriteria" {...register("acceptanceCriteria")} />
+            <Input
+              id="acceptanceCriteria"
+              {...register("acceptanceCriteria")}
+            />
             {errors.acceptanceCriteria && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.acceptanceCriteria.message}
@@ -301,7 +300,10 @@ export default function IssueCreationDialog({
             >
               Sustainability Criteria
             </label>
-            <Input id="sustainabilityCriteria" {...register("sustainabilityCriteria")} />
+            <Input
+              id="sustainabilityCriteria"
+              {...register("sustainabilityCriteria")}
+            />
             {errors.sustainabilityCriteria && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.sustainabilityCriteria.message}

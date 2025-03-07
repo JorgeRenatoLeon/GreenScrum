@@ -48,6 +48,8 @@ export async function createIssue(projectId, data) {
     throw new Error("Unauthorized");
   }
 
+  console.log("Received data:", data); // Debugging statement
+
   let user = await db.user.findUnique({ where: { clerkUserId: userId } });
 
   const lastIssue = await db.issue.findFirst({

@@ -32,4 +32,8 @@ export const issueSchema = z.object({
   sustainabilityDimensions: z.array(
     z.nativeEnum(SustainabilityDimension)
   ).optional(),
+  storyPoints: z.number().min(0).max(10).optional(),
+  sustainabilityPoints: z.number().min(0).max(10).optional(),
+  acceptanceCriteria: z.string().optional(),
+  sustainabilityCriteria: z.string().optional(),
 });
