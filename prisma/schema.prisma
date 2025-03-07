@@ -73,6 +73,19 @@ model Issue {
   @@index([status, order])
 }
 
+model Review {
+  id        String   @id @default(cuid())
+  sprintId  String
+  itemId    String
+  responses Json     // Store responses as JSON
+  feedback  String?
+  sprint    Sprint   @relation(fields: [sprintId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([itemId, sprintId]) // Ensure unique combination of itemId and sprintId
+}
+
 enum SprintStatus {
   PLANNED
   ACTIVE

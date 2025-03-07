@@ -59,6 +59,7 @@ export async function createIssue(projectId, data) {
 
   const newOrder = lastIssue ? lastIssue.order + 1 : 0;
 
+
   const issue = await db.issue.create({
     data: {
       title: data.title,
@@ -81,6 +82,7 @@ export async function createIssue(projectId, data) {
       reporter: true,
     },
   });
+
 
   return issue;
 }
@@ -163,5 +165,65 @@ export async function updateIssue(issueId, data) {
     return updatedIssue;
   } catch (error) {
     throw new Error("Error updating issue: " + error.message);
+  }
+}
+
+/*export async function saveReviewResponses(sprintId, itemId, responses, feedback) {
+  const { userId, orgId } = auth();
+
+  if (!userId || !orgId) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    // Save the review responses and feedback to the database
+    const review = await db.review.upsert({
+      where: { itemId_sprintId: { itemId, sprintId } }, // Unique constraint for itemId and sprintId
+      update: {
+        responses: responses, // Update the responses
+        feedback: feedback, // Update the feedback
+      },
+      create: {
+        sprintId: sprintId,
+        itemId: itemId,
+        responses: responses, // Create new responses
+        feedback: feedback, // Create new feedback
+      },
+    });
+
+    return review;
+  } catch (error) {
+    throw new Error("Error saving review responses: " + error.message);
+  }
+}*/
+
+
+
+export async function saveReviewResponses(sprintId, itemId, responses = {}, feedback = "") {
+  const { userId, orgId } = auth();
+
+  if (!userId || !orgId) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    // Save the review responses and feedback to the database
+    const review = await db.review.upsert({
+      where: { itemId_sprintId: { itemId: itemId.toString(), sprintId } }, // Ensure itemId is a string
+      update: {
+        responses: responses, // Update the responses (can be empty)
+        feedback: feedback, // Update the feedback (can be empty)
+      },
+      create: {
+        sprintId: sprintId,
+        itemId: itemId.toString(), // Ensure itemId is a string
+        responses: responses, // Create new responses (can be empty)
+        feedback: feedback, // Create new feedback (can be empty)
+      },
+    });
+
+    return review;
+  } catch (error) {
+    throw new Error("Error saving review responses: " + error.message);
   }
 }
