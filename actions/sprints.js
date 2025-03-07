@@ -44,7 +44,6 @@ export async function updateSprintStatus(sprintId, newStatus) {
       where: { id: sprintId },
       include: { project: true },
     });
-    console.log(sprint, orgRole);
 
     if (!sprint) {
       throw new Error("Sprint not found");

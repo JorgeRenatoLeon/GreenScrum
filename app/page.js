@@ -20,23 +20,20 @@ import Image from "next/image";
 
 const faqs = [
   {
-    question: "What is SCRUM?",
-    answer:
-      "SCRUM is an agile framework that helps teams manage complex projects through short, iterative cycles called sprints.",
-  },
-  {
     question: "How can I get started with GreenScrum?",
     answer:
-      "Simply visit our website and sign up for an account. Once you're signed up, you can start setting sustainability goals, tracking carbon emissions, and optimizing your team's agile workflows for a greener future."},
+      "Simply visit our website and sign up for an account. Once you're signed up, you can start setting sustainability goals, tracking carbon emissions, and optimizing your team's agile workflows for a greener future.",
+  },
   {
     question: "Can GreenScrum be used by organizations of any size?",
     answer:
       "Absolutely! It is designed to be scalable and flexible. It works great for small teams and can easily grow with your organization as it expands. Our user-friendly interface ensures that teams of any size can quickly adapt and start benefiting from ZCRUM's features.",
   },
   {
-    question: "Is SUSAF important to do ?",
+    question: "Is SUSAF important to do?",
     answer:
-      "No, it is not compulsory but it is a key practice for teams looking to align their agile workflows with sustainable development principles."},
+      "No, it is not compulsory but it is a key practice for teams looking to align their agile workflows with sustainable development principles.",
+  },
   {
     question: "Can GreenScrum handle multiple projects simultaneously?",
     answer:
@@ -49,18 +46,14 @@ const faqs = [
   },
 ];
 
-
 export default function Home() {
   return (
     <div className="min-h-screen">
       <section className="container mx-auto py-20 text-center">
         <h1 className="text-6xl sm:text-7xl lg:text-8xl font-extrabold gradient-title pb-6 flex flex-col">
-        Empowering Agile Teams for a Sustainable Future <br />
-         
+          Empowering Agile Teams for a Sustainable Future <br />
         </h1>
-     
       </section>
-
 
       {/* Companies Carousel */}
       <section className="pt-20">
@@ -73,7 +66,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-gray-900 py-20 px-5">
+      <section className="bg-gray-900 py-20 px-5 text-white">
         <div className="container mx-auto">
           <h3 className="text-3xl font-bold mb-12 text-center">
             Frequently Asked Questions
@@ -89,6 +82,21 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Learn More About ICT and Sustainability */}
+      <section className="bg-white py-16 text-center">
+        <h3 className="text-3xl font-bold text-gray-900 mb-6">
+          Learn More About ICT and Sustainability
+        </h3>
+        <p className="text-gray-700 text-lg mb-6 max-w-2xl mx-auto">
+          Discover how Information and Communication Technology (ICT) plays a crucial role 
+          in driving sustainable development and reducing environmental impact.
+        </p>
+        <Link href="/learnMore">
+          <Button className="bg-black text-white hover:bg-gray-800">
+            Learn More
+          </Button>
+        </Link>
+      </section>
     </div>
   );
 }

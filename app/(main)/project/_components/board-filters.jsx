@@ -58,7 +58,7 @@ export default function BoardFilters({ issues, onFilterChange }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col pr-2 sm:flex-row gap-4 sm:gap-6 mt-6">
+      <div className="flex flex-col pr-2 sm:flex-row gap-4 sm:gap-6 mt-6 text-black">
         <Input
           className="w-full sm:w-72 text-black"
           placeholder="Search issues..."
