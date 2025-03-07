@@ -4,6 +4,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { getProjects } from "@/actions/organizations";
 import DeleteProject from "./delete-project";
 
+
+
 export default async function ProjectList({ orgId }) {
   const projects = await getProjects(orgId);
 
@@ -23,25 +25,26 @@ export default async function ProjectList({ orgId }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {projects.map((project) => (
-        <Card key={project.id}>
-          <CardHeader>
-            <CardTitle className="flex justify-between items-center">
-              {project.name}
-              <DeleteProject projectId={project.id} />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-gray-500 mb-4">{project.description}</p>
-            <Link
-              href={`/project/${project.id}`}
-              className="text-blue-500 hover:underline"
-            >
-              View Project
-            </Link>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+  {projects.map((project) => (
+    <Card key={project.id} className="bg-white text-black shadow-md border">
+      <CardHeader>
+        <CardTitle className="flex justify-between items-center">
+          Project Name : {project.name}
+          <DeleteProject projectId={project.id} />
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-gray-700 mb-4">Description : {project.description}</p>
+        <Link
+          href={`/project/${project.id}`}
+          className="text-blue-500 hover:underline"
+        >
+          View Project
+        </Link>
+      </CardContent>
+    </Card>
+  ))}
+</div>
+
   );
 }

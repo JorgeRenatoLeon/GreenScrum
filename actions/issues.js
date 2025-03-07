@@ -56,9 +56,6 @@ export async function createIssue(projectId, data) {
 
   const newOrder = lastIssue ? lastIssue.order + 1 : 0;
 
-  console.log("Data being passed to createIssue:", data); // Ensure this line is present
-
-  console.log("Data being passed to Prisma:", data.sustainabilityDimensions);
   
   const issue = await db.issue.create({
     data: {

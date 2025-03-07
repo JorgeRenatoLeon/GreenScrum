@@ -62,6 +62,27 @@
   {
     "name": "goal13",
     "path": "/companies/goal13.png",
-    "id": 13
+    "id": 13}
+  ,
+  {
+    "name": "logo14",
+    "path": "/companies/logo14.png",
+    "id": 14
+  },
+  {
+    "name": "logo15",
+    "path": "/companies/logo15.png",
+    "id": 15
+  },
+  {
+    "name": "logo16",
+    "path": "/companies/logo16.png",
+    "id": 16
+  },
+  {
+    "name": "logo17",
+    "path": "/companies/logo17.png",
+    "id": 17
   }
+
 ]

@@ -79,7 +79,7 @@ export default function IssueCreationDrawer({
   }, [isOpen, orgId]);
 
   const onSubmit = async (data) => {
-    console.log("Form data being submitted:", data); // Log the form data to check if sustainabilityDimensions are included
+   
     await createIssueFn(projectId, {
       ...data,
       status,
