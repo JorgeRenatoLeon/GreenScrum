@@ -22,7 +22,7 @@ export async function getIssuesForSprint(sprintId) {
   return issues;
 }
 
-export async function getIssues() {
+export async function getIssues(projectId) {
   const { userId, orgId } = auth();
 
   if (!userId || !orgId) {
@@ -30,6 +30,7 @@ export async function getIssues() {
   }
 
   const issues = await db.issue.findMany({
+    where: { projectId: projectId },
     orderBy: [{ status: "asc" }, { order: "asc" }],
     include: {
       assignee: true,
