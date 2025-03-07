@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { saveReviewResponses } from "@/actions/sprints";
+// import { saveReviewResponses } from "@/actions/sprints";
 
 export default function ReviewPage() {
     const sprintId = "sprint-123"; // Define sprintId directly in the component
@@ -66,7 +66,7 @@ export default function ReviewPage() {
             const responses = reviewResponses[itemId] || {};
 
             // Save the responses and feedback to the database
-            await saveReviewResponses(sprintId, itemId, responses, feedback[itemId] || "");
+            // await saveReviewResponses(sprintId, itemId, responses, feedback[itemId] || "");
 
             // Show success message
             toast.success("Review submitted successfully!");

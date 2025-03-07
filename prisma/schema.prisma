@@ -45,30 +45,31 @@ model Sprint {
   issues    Issue[]
   project   Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
   goal      String
+  Review    Review[]
 }
 
 model Issue {
-  id                      String     @id @default(cuid())
-  title                   String
-  description             String?
-  status                  IssueStatus
-  order                   Int        // This will store the order within its status column
-  priority                IssuePriority
-  assignee                User?      @relation("Assignee", fields: [assigneeId], references: [id])
-  assigneeId              String?
-  reporter                User       @relation("Reporter", fields: [reporterId], references: [id])
-  reporterId              String
-  project                 Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId               String
-  sprint                  Sprint?    @relation(fields: [sprintId], references: [id], onDelete: SetNull)
-  sprintId                String?
-  createdAt               DateTime   @default(now())
-  updatedAt               DateTime   @updatedAt
+  id                       String                    @id @default(cuid())
+  title                    String
+  description              String?
+  status                   IssueStatus
+  order                    Int // This will store the order within its status column
+  priority                 IssuePriority
+  assignee                 User?                     @relation("Assignee", fields: [assigneeId], references: [id])
+  assigneeId               String?
+  reporter                 User                      @relation("Reporter", fields: [reporterId], references: [id])
+  reporterId               String
+  project                  Project                   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId                String
+  sprint                   Sprint?                   @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  sprintId                 String?
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
   sustainabilityDimensions SustainabilityDimension[] @default([]) // Ensure it's marked as an array and has a default value
-  storyPoints             Int?
-  sustainabilityPoints    Int?
-  acceptanceCriteria      String?
-  sustainabilityCriteria  String?
+  storyPoints              Int?
+  sustainabilityPoints     Int?
+  acceptanceCriteria       String?
+  sustainabilityCriteria   String?
 
   @@index([status, order])
 }
@@ -77,7 +78,7 @@ model Review {
   id        String   @id @default(cuid())
   sprintId  String
   itemId    String
-  responses Json     // Store responses as JSON
+  responses Json // Store responses as JSON
   feedback  String?
   sprint    Sprint   @relation(fields: [sprintId], references: [id])
   createdAt DateTime @default(now())
