@@ -12,13 +12,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import MultiSelect from "@/components/ui/multi-select"; // Import the MultiSelect component
 
 const priorities = ["LOW", "MEDIUM", "HIGH", "URGENT"];
+
+const sustainabilityDimensionsOptions = [
+  { value: "INDIVIDUAL", label: "Individual" },
+  { value: "ENVIRONMENTAL", label: "Environmental" },
+  { value: "SOCIAL", label: "Social" },
+  { value: "ECONOMIC", label: "Economic" },
+  { value: "TECHNICAL", label: "Technical" },
+];
 
 export default function BoardFilters({ issues, onFilterChange }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedAssignees, setSelectedAssignees] = useState([]);
   const [selectedPriority, setSelectedPriority] = useState("");
+  const [selectedDimensions, setSelectedDimensions] = useState([]);
 
   const assignees = issues
     .map((issue) => issue.assignee)
@@ -32,10 +42,14 @@ export default function BoardFilters({ issues, onFilterChange }) {
         issue.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedAssignees.length === 0 ||
           selectedAssignees.includes(issue.assignee?.id)) &&
-        (selectedPriority === "" || issue.priority === selectedPriority)
+        (selectedPriority === "" || issue.priority === selectedPriority) &&
+        (selectedDimensions.length === 0 ||
+          selectedDimensions.every((dim) =>
+            issue.sustainabilityDimensions.includes(dim)
+          ))
     );
     onFilterChange(filteredIssues);
-  }, [searchTerm, selectedAssignees, selectedPriority, issues]);
+  }, [searchTerm, selectedAssignees, selectedPriority, selectedDimensions, issues]);
 
   const toggleAssignee = (assigneeId) => {
     setSelectedAssignees((prev) =>
@@ -49,12 +63,14 @@ export default function BoardFilters({ issues, onFilterChange }) {
     setSearchTerm("");
     setSelectedAssignees([]);
     setSelectedPriority("");
+    setSelectedDimensions([]);
   };
 
   const isFiltersApplied =
     searchTerm !== "" ||
     selectedAssignees.length > 0 ||
-    selectedPriority !== "";
+    selectedPriority !== "" ||
+    selectedDimensions.length > 0;
 
   return (
     <div className="space-y-4">
@@ -104,6 +120,13 @@ export default function BoardFilters({ issues, onFilterChange }) {
             ))}
           </SelectContent>
         </Select>
+
+        <MultiSelect
+          options={sustainabilityDimensionsOptions}
+          value={selectedDimensions}
+          onChange={setSelectedDimensions}
+          labelledBy="Select dimensions"
+        />
 
         {isFiltersApplied && (
           <Button
