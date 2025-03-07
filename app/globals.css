@@ -10,6 +10,10 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .overflow-y-auto {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
 }
 
 @layer base {
@@ -79,28 +83,15 @@ body {
     background-color: hsl(178.5, 52.96%, 38.6%) !important;
   }
   /* global styles or component-specific styles */
-.bg-card {
-  background-color: hsl(178.5, 52.96%, 38.6%) !important; /* Apply the custom HSL color */
-}
-
-}
-
-/* @keyframes moveDots {
-  0% {
-    background-position: 0 0;
+  .bg-card {
+    background-color: hsl(178.5, 52.96%, 38.6%) !important; /* Apply the custom HSL color */
   }
-  100% {
-    background-position: 80px 80px;
-  }
-} */
+}
 
 .animated-dotted-background {
   background-image: url('/background.png');
   background-size: cover;
 }
-
-
-
 
 @layer utilities {
   .gradient-title {
@@ -108,7 +99,6 @@ body {
     background-size: 200% 200%; /* To allow the gradient to expand */
     background-position: center; /* Align the gradient towards the center */
   }
-  
 }
 
 .wmde-markdown ul {
@@ -116,6 +106,7 @@ body {
   padding-left: 15px !important;
   color: white;
 }
+
 html, body {
   background-color: white !important;
   color: black !important;

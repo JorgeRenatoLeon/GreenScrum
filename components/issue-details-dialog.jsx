@@ -177,6 +177,28 @@ export default function IssueDetailsDialog({
               </span>
             ))}
           </div>
+          <div>
+            <h4 className="font-semibold">Story Points</h4>
+            <p>{issue.storyPoints || "--"}</p>
+          </div>
+          <div>
+            <h4 className="font-semibold">Sustainability Points</h4>
+            <p>{issue.sustainabilityPoints || "--"}</p>
+          </div>
+          <div>
+            <h4 className="font-semibold">Acceptance Criteria</h4>
+            <MDEditor.Markdown
+              className="rounded px-2 py-1"
+              source={issue.acceptanceCriteria ? issue.acceptanceCriteria : "--"}
+            />
+          </div>
+          <div>
+            <h4 className="font-semibold">Sustainability Criteria</h4>
+            <MDEditor.Markdown
+              className="rounded px-2 py-1"
+              source={issue.sustainabilityCriteria ? issue.sustainabilityCriteria : "--"}
+            />
+          </div>
           {canChange && (
             <Button
               onClick={handleDelete}
