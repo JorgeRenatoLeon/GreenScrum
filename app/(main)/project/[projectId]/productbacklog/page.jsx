@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 // import { getBacklogItems, updateBacklogItem, deleteBacklogItem } from "@/actions/backlog";
 
 export default function ProductBacklog() {
-//   const { data: backlogItems, fn: fetchBacklogItems } = useFetch(getBacklogItems);
+  //   const { data: backlogItems, fn: fetchBacklogItems } = useFetch(getBacklogItems);
 
   // Hardcoded backlog items for initial rendering
   const [backlogItems, setBacklogItems] = useState([
@@ -32,35 +32,35 @@ export default function ProductBacklog() {
       priority: "Medium",
     },
   ]);
-//   const { fn: updateItem } = useFetch(updateBacklogItem);
-//   const { fn: deleteItem } = useFetch(deleteBacklogItem);
+  //   const { fn: updateItem } = useFetch(updateBacklogItem);
+  //   const { fn: deleteItem } = useFetch(deleteBacklogItem);
 
   const [editingItem, setEditingItem] = useState(null);
   const [formData, setFormData] = useState({});
 
-//   useEffect(() => {
-//     fetchBacklogItems();
-//   }, []);
+  //   useEffect(() => {
+  //     fetchBacklogItems();
+  //   }, []);
 
-//   const handleEdit = (item) => {
-//     setEditingItem(item.id);
-//     setFormData({ ...item });
-//   };
+  //   const handleEdit = (item) => {
+  //     setEditingItem(item.id);
+  //     setFormData({ ...item });
+  //   };
 
-//   const handleSave = async () => {
-//     await updateItem(formData.id, formData);
-//     toast.success("Item updated successfully");
-//     setEditingItem(null);
-//     fetchBacklogItems();
-//   };
+  //   const handleSave = async () => {
+  //     await updateItem(formData.id, formData);
+  //     toast.success("Item updated successfully");
+  //     setEditingItem(null);
+  //     fetchBacklogItems();
+  //   };
 
-//   const handleDelete = async (id) => {
-//     if (confirm("Are you sure you want to delete this item?")) {
-//       await deleteItem(id);
-//       toast.success("Item deleted successfully");
-//       fetchBacklogItems();
-//     }
-//   };
+  //   const handleDelete = async (id) => {
+  //     if (confirm("Are you sure you want to delete this item?")) {
+  //       await deleteItem(id);
+  //       toast.success("Item deleted successfully");
+  //       fetchBacklogItems();
+  //     }
+  //   };
 
 
 

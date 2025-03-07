@@ -59,7 +59,7 @@ export async function createIssue(projectId, data) {
   console.log("Data being passed to createIssue:", data); // Ensure this line is present
 
   console.log("Data being passed to Prisma:", data.sustainabilityDimensions);
-  
+
   const issue = await db.issue.create({
     data: {
       title: data.title,
@@ -78,7 +78,7 @@ export async function createIssue(projectId, data) {
       reporter: true,
     },
   });
-  
+
 
   return issue;
 }
@@ -156,4 +156,32 @@ export async function updateIssue(issueId, data) {
   } catch (error) {
     throw new Error("Error updating issue: " + error.message);
   }
+}
+
+export async function updateIssueOrder(issueId, newOrder) {
+  const { userId, orgId } = auth();
+
+  if (!userId || !orgId) {
+    throw new Error("Unauthorized");
+  }
+
+  const issue = await db.issue.findUnique({
+    where: { id: issueId },
+    include: { project: true },
+  });
+
+  if (!issue) {
+    throw new Error("Issue not found");
+  }
+
+  if (issue.project.organizationId !== orgId) {
+    throw new Error("Unauthorized");
+  }
+
+  const updatedIssue = await db.issue.update({
+    where: { id: issueId },
+    data: { order: newOrder },
+  });
+
+  return updatedIssue;
 }
