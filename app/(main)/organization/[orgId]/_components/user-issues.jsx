@@ -11,10 +11,10 @@ export default async function UserIssues({ userId }) {
   }
 
   const assignedIssues = issues.filter(
-    (issue) => issue.assignee.clerkUserId === userId
+    (issue) => issue.assignee && issue.assignee.clerkUserId === userId
   );
   const reportedIssues = issues.filter(
-    (issue) => issue.reporter.clerkUserId === userId
+    (issue) => issue.reporter && issue.reporter.clerkUserId === userId
   );
 
   return (

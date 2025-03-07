@@ -6,9 +6,13 @@ import useFetch from "@/hooks/use-fetch";
 import { Button } from "@/components/ui/button";
 import AiItengration from "./ai-integration";
 
+import { useRouter } from 'next/navigation';
+
 import { createIssue } from "@/actions/issues";
+import { SustainabilityDimension } from '@prisma/client';
 
 const CreateBacklog = ({projectId}) => {
+    const router = useRouter();
 
     const [currentStep, setCurrentStep] = useState(2);
 
@@ -96,12 +100,23 @@ const CreateBacklog = ({projectId}) => {
         // Create product backlog
         for (let issue of issues) {
             console.log("Form data being submitted:", issue); // Log the form data to check if sustainabilityDimensions are included
-            await createIssueFn(projectId, {
-                ...issue,
-                status: 'TODO',
-                sprintId: null,
-            });
+            // Format issue to db schema and create issue
+            const newIssue = {
+                "assigneeId": null,
+                "description": issue.backlog_description,
+                "priority": issue.priority ? issue.priority.toUpperCase() : "Medium",
+                "sprintId": null,
+                "status": "TODO",
+                "sustainabilityDimensions": issue.sustainability_dimensions.map(dimension => SustainabilityDimension[dimension.toUpperCase()]),
+                "sustainabilityPoints": parseInt(issue.sustainability_points, 10),
+                "storyPoints": parseInt(issue.story_points, 10),
+                "acceptanceCriteria": issue.acceptance_criteria,
+                "sustainabilityCriteria": issue.sustainability_criteria,
+                "title": issue.backlog_title
+            };
+            await createIssueFn(projectId, newIssue);
         }
+        router.refresh();
     };
 
     useEffect(() => {
@@ -194,6 +209,13 @@ const CreateBacklog = ({projectId}) => {
             )
             : createIssueLoading ? (<p>Loading...</p>) : (
                 <div className="container mx-auto p-6">
+                    <Button
+                        className="mb-2 flex gap-1 ml-auto"
+                        onClick={() => setCurrentStep(1)}
+                        variant="default"
+                    >
+                        Return to previous step
+                    </Button>
                     <h1 className="text-3xl font-bold mb-6">Generated Backlog</h1>
                     <div className="mb-4">
                         <input

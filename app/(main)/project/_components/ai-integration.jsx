@@ -107,10 +107,10 @@ export default function TokenInputForm({ requirements, updateIssues }) {
         backlog_title: "",
         backlog_description: "",
         priority: "",
-        story_points: ""
-        sustainability_points: ""
-        acceptance_criteria: ""
-        sustainability_criteria: "",
+        story_points: "",
+        sustainability_points: "",
+        acceptance_criteria: "", (String)
+        sustainability_criteria: "", (String)
         sustainability_dimensions: "" (Array of dimensions)
       }
  
@@ -151,9 +151,9 @@ export default function TokenInputForm({ requirements, updateIssues }) {
   return (
     <form onSubmit={handleSubmit}>
 
-    <div className="flex justify-end gap-3">
-        <Button type="submit" variant="default" className="flex items-center gap-1 my-4">
-            Generate
+    <div className="flex justify-start gap-3">
+        <Button type="submit" variant="default" size="lg" className="flex items-center gap-1 my-4">
+          Generate Backlog
         </Button>
     </div>
       <div className="relative mb-5 block w-full rounded-xl border border-dashed border-gray-4 bg-gray-2 border-primary dark:border-dark-3 dark:bg-dark-2 dark:hover:border-primary">

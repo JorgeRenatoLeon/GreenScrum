@@ -2,7 +2,7 @@
 import { getProject } from "@/actions/projects";
 import { getIssues } from "@/actions/issues";
 import { notFound } from "next/navigation";
-import SprintBoard from "../../_components/sprint-board";
+import BacklogList from "../../_components/backlog-list";
 import CreateBacklog from "../../_components/create-backlog";
 
 export default async function ProductBacklog({ params }) {
@@ -19,7 +19,17 @@ export default async function ProductBacklog({ params }) {
       <h1 className="text-3xl font-bold mb-6">Product Backlog</h1>
       
       <div className="container mx-auto">
-          <CreateBacklog projectId={projectId} />
+        {
+          issues.filter(issue => !issue.sprintId).length > 0 ? (
+            <BacklogList
+              sprints={project.sprints}
+              projectId={projectId}
+              orgId={project.organizationId}
+            />
+          ) : (
+            <CreateBacklog projectId={projectId} />
+          )
+        }
       </div>
     </div>
   );
