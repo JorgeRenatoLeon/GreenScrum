@@ -94,10 +94,10 @@ export default function SprintManager({
     <>
       <div className="flex justify-between items-center gap-4">
         <Select value={sprint.id} onValueChange={handleSprintChange}>
-          <SelectTrigger className="bg-slate-950 self-start">
+        <SelectTrigger style={{ backgroundColor: 'hsl(178.5, 52.96%, 38.6%)' }} className="self-start">
             <SelectValue placeholder="Select Sprint" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent style={{ backgroundColor: 'white', color: 'black'}}>
             {sprints.map((sprint) => (
               <SelectItem key={sprint.id} value={sprint.id}>
                 {sprint.name} ({format(sprint.startDate, "MMM d, yyyy")} to{" "}
@@ -111,7 +111,8 @@ export default function SprintManager({
           <Button
             onClick={() => handleStatusChange("ACTIVE")}
             disabled={loading}
-            className="bg-green-900 text-white"
+            variant="destructive"
+            
           >
             Start Sprint
           </Button>
@@ -120,7 +121,7 @@ export default function SprintManager({
           <Button
             onClick={() => handleStatusChange("COMPLETED")}
             disabled={loading}
-            variant="destructive"
+            className="bg-red-900 text-white"
           >
             End Sprint
           </Button>

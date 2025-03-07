@@ -98,6 +98,7 @@ export default function IssueCreationDrawer({
   }, [newIssue, createIssueLoading]);
 
   return (
+  <div className="bg-white text-black">
     <Drawer open={isOpen} onClose={onClose}>
       <DrawerContent>
         <DrawerHeader>
@@ -132,7 +133,7 @@ export default function IssueCreationDrawer({
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white text-black">
                     <SelectValue placeholder="Select assignee" />
                   </SelectTrigger>
                   <SelectContent>
@@ -234,5 +235,6 @@ export default function IssueCreationDrawer({
         </form>
       </DrawerContent>
     </Drawer>
+    </div>
   );
 }

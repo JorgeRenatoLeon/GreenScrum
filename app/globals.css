@@ -14,7 +14,7 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 100% !important;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -75,6 +75,14 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  [data-state="active"] {
+    background-color: hsl(178.5, 52.96%, 38.6%) !important;
+  }
+  /* global styles or component-specific styles */
+.bg-card {
+  background-color: hsl(178.5, 52.96%, 38.6%) !important; /* Apply the custom HSL color */
+}
+
 }
 
 /* @keyframes moveDots {
@@ -107,4 +115,8 @@ body {
   list-style-type: disc;
   padding-left: 15px !important;
   color: white;
+}
+html, body {
+  background-color: white !important;
+  color: black !important;
 }
