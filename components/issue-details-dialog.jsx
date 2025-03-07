@@ -22,11 +22,20 @@ import {
 import { BarLoader } from "react-spinners";
 import { ExternalLink } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { FaLeaf, FaUser, FaGlobe, FaDollarSign, FaCog } from 'react-icons/fa';
 
 import statuses from "@/data/status";
 import { deleteIssue, updateIssue } from "@/actions/issues";
 
 const priorityOptions = ["LOW", "MEDIUM", "HIGH", "URGENT"];
+
+const dimensionIcons = {
+  INDIVIDUAL: <FaUser className="text-blue-500" />,
+  ENVIRONMENTAL: <FaLeaf className="text-green-500" />,
+  SOCIAL: <FaGlobe className="text-purple-500" />,
+  ECONOMIC: <FaDollarSign className="text-yellow-500" />,
+  TECHNICAL: <FaCog className="text-gray-500" />,
+};
 
 export default function IssueDetailsDialog({
   isOpen,
@@ -160,6 +169,13 @@ export default function IssueDetailsDialog({
               <h4 className="font-semibold">Reporter</h4>
               <UserAvatar user={issue.reporter} />
             </div>
+          </div>
+          <div className="flex gap-1">
+            {issue.sustainabilityDimensions.map((dimension) => (
+              <span key={dimension} title={dimension}>
+                {dimensionIcons[dimension]}
+              </span>
+            ))}
           </div>
           {canChange && (
             <Button

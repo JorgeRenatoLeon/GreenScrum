@@ -13,12 +13,21 @@ import { formatDistanceToNow } from "date-fns";
 import IssueDetailsDialog from "./issue-details-dialog";
 import UserAvatar from "./user-avatar";
 import { useRouter } from "next/navigation";
+import { FaLeaf, FaUser, FaGlobe, FaDollarSign, FaCog } from 'react-icons/fa';
 
 const priorityColor = {
   LOW: "border-green-600",
   MEDIUM: "border-yellow-300",
   HIGH: "border-orange-400",
   URGENT: "border-red-400",
+};
+
+const dimensionIcons = {
+  INDIVIDUAL: <FaUser className="text-blue-500" />,
+  ENVIRONMENTAL: <FaLeaf className="text-green-500" />,
+  SOCIAL: <FaGlobe className="text-purple-500" />,
+  ECONOMIC: <FaDollarSign className="text-yellow-500" />,
+  TECHNICAL: <FaCog className="text-gray-500" />,
 };
 
 export default function IssueCard({
@@ -61,6 +70,13 @@ export default function IssueCard({
           <Badge variant="outline" className="-ml-1">
             {issue.priority}
           </Badge>
+          <div className="flex gap-1">
+            {issue.sustainabilityDimensions.map((dimension) => (
+              <span key={dimension} title={dimension}>
+                {dimensionIcons[dimension]}
+              </span>
+            ))}
+          </div>
         </CardContent>
         <CardFooter className="flex flex-col items-start space-y-3">
           <UserAvatar user={issue.assignee} />
