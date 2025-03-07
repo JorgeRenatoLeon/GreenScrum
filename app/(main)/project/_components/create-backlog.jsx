@@ -10,7 +10,7 @@ import { createIssue } from "@/actions/issues";
 
 const CreateBacklog = ({projectId}) => {
 
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(2);
 
     const [requirements, setRequirements] = useState([]);
     const [requirement, setRequirement] = useState('');

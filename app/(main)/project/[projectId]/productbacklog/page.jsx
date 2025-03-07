@@ -19,16 +19,7 @@ export default async function ProductBacklog({ params }) {
       <h1 className="text-3xl font-bold mb-6">Product Backlog</h1>
       
       <div className="container mx-auto">
-  
-        {issues.length > 0 ? (
-          <SprintBoard
-            sprints={project.sprints}
-            projectId={projectId}
-            orgId={project.organizationId}
-          />
-        ) : (
           <CreateBacklog projectId={projectId} />
-        )}
       </div>
     </div>
   );
