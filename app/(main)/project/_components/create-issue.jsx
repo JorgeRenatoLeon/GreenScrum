@@ -5,11 +5,11 @@ import { BarLoader } from "react-spinners";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +34,7 @@ const sustainabilityDimensionsOptions = [
   { value: "TECHNICAL", label: "Technical" },
 ];
 
-export default function IssueCreationDrawer({
+export default function IssueCreationDialog({
   isOpen,
   onClose,
   sprintId,
@@ -69,6 +69,10 @@ export default function IssueCreationDrawer({
       description: "",
       assigneeId: "",
       sustainabilityDimensions: [],
+      storyPoints: "",
+      sustainabilityPoints: "",
+      acceptanceCriteria: "",
+      sustainabilityCriteria: "",
     },
   });
 
@@ -79,14 +83,12 @@ export default function IssueCreationDrawer({
   }, [isOpen, orgId]);
 
   const onSubmit = async (data) => {
-   
     await createIssueFn(projectId, {
       ...data,
       status,
       sprintId,
     });
   };
-  
 
   useEffect(() => {
     if (newIssue) {
@@ -98,12 +100,11 @@ export default function IssueCreationDrawer({
   }, [newIssue, createIssueLoading]);
 
   return (
-  <div className="bg-white text-black">
-    <Drawer open={isOpen} onClose={onClose}>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Create New Issue</DrawerTitle>
-        </DrawerHeader>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="overflow-y-auto max-h-[80vh]">
+        <DialogHeader>
+          <DialogTitle>Create New Issue</DialogTitle>
+        </DialogHeader>
         {usersLoading && <BarLoader width={"100%"} color="#36d7b7" />}
         <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
           <div>
@@ -133,7 +134,7 @@ export default function IssueCreationDrawer({
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="bg-white text-black">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select assignee" />
                   </SelectTrigger>
                   <SelectContent>
@@ -224,6 +225,90 @@ export default function IssueCreationDrawer({
             )}
           </div>
 
+          <div>
+            <label
+              htmlFor="storyPoints"
+              className="block text-sm font-medium mb-1"
+            >
+              Story Points
+            </label>
+            <Controller
+              name="storyPoints"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  type="number"
+                  min="0"
+                  max="10"
+                  id="storyPoints"
+                  {...field}
+                />
+              )}
+            />
+            {errors.storyPoints && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.storyPoints.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="sustainabilityPoints"
+              className="block text-sm font-medium mb-1"
+            >
+              Sustainability Points
+            </label>
+            <Controller
+              name="sustainabilityPoints"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  type="number"
+                  min="0"
+                  max="10"
+                  id="sustainabilityPoints"
+                  {...field}
+                />
+              )}
+            />
+            {errors.sustainabilityPoints && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.sustainabilityPoints.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="acceptanceCriteria"
+              className="block text-sm font-medium mb-1"
+            >
+              Acceptance Criteria
+            </label>
+            <Input id="acceptanceCriteria" {...register("acceptanceCriteria")} />
+            {errors.acceptanceCriteria && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.acceptanceCriteria.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="sustainabilityCriteria"
+              className="block text-sm font-medium mb-1"
+            >
+              Sustainability Criteria
+            </label>
+            <Input id="sustainabilityCriteria" {...register("sustainabilityCriteria")} />
+            {errors.sustainabilityCriteria && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.sustainabilityCriteria.message}
+              </p>
+            )}
+          </div>
+
           {error && <p className="text-red-500 mt-2">{error.message}</p>}
           <Button
             type="submit"
@@ -233,8 +318,7 @@ export default function IssueCreationDrawer({
             {createIssueLoading ? "Creating..." : "Create Issue"}
           </Button>
         </form>
-      </DrawerContent>
-    </Drawer>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

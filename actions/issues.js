@@ -57,10 +57,6 @@ export async function createIssue(projectId, data) {
 
   const newOrder = lastIssue ? lastIssue.order + 1 : 0;
 
-  console.log("Data being passed to createIssue:", data); // Ensure this line is present
-
-  console.log("Data being passed to Prisma:", data.sustainabilityDimensions);
-
   const issue = await db.issue.create({
     data: {
       title: data.title,
@@ -72,14 +68,17 @@ export async function createIssue(projectId, data) {
       reporterId: user.id,
       assigneeId: data.assigneeId || null,
       order: newOrder,
-      sustainabilityDimensions: data.sustainabilityDimensions || [], // Ensure this is passed correctly
+      sustainabilityDimensions: data.sustainabilityDimensions,
+      storyPoints: data.storyPoints,
+      sustainabilityPoints: data.sustainabilityPoints,
+      acceptanceCriteria: data.acceptanceCriteria,
+      sustainabilityCriteria: data.sustainabilityCriteria,
     },
     include: {
       assignee: true,
       reporter: true,
     },
   });
-  
 
   return issue;
 }
@@ -146,7 +145,12 @@ export async function updateIssue(issueId, data) {
       data: {
         status: data.status,
         priority: data.priority,
-        order: data.order, // Ensure this line is present
+        order: data.order,
+        sustainabilityDimensions: data.sustainabilityDimensions,
+        storyPoints: data.storyPoints,
+        sustainabilityPoints: data.sustainabilityPoints,
+        acceptanceCriteria: data.acceptanceCriteria,
+        sustainabilityCriteria: data.sustainabilityCriteria,
       },
       include: {
         assignee: true,
