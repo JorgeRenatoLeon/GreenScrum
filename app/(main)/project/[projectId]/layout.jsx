@@ -61,21 +61,21 @@ export default function ProjectLayout({ params, children }) {
             </Link>
           </TabsTrigger>
           <TabsTrigger
-            value="retrospective"
-            asChild
-            className={`${getTabClass("retrospective")} flex items-center justify-center border-r  last:border-r-0 rounded-none`}
-            data-state={tabValue === "retrospective"}>
-            <Link href={`/project/${projectId}/retrospective`} className="w-full text-center">
-              Retrospective
-            </Link>
-          </TabsTrigger>
-          <TabsTrigger
             value="review"
             asChild
             className={`${getTabClass("review")} flex items-center justify-center last:border-r-0 rounded-none`}
             data-state={tabValue === "review"}>
             <Link href={`/project/${projectId}/review`} className="w-full text-center">
               Review
+            </Link>
+          </TabsTrigger>
+          <TabsTrigger
+            value="retrospective"
+            asChild
+            className={`${getTabClass("retrospective")} flex items-center justify-center border-r  last:border-r-0 rounded-none`}
+            data-state={tabValue === "retrospective"}>
+            <Link href={`/project/${projectId}/retrospective`} className="w-full text-center">
+              Retrospective
             </Link>
           </TabsTrigger>
         </TabsList>
