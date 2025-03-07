@@ -27,7 +27,7 @@ export default async function ProductBacklog({ params }) {
             orgId={project.organizationId}
           />
         ) : (
-          <CreateBacklog />
+          <CreateBacklog projectId={projectId} />
         )}
       </div>
     </div>

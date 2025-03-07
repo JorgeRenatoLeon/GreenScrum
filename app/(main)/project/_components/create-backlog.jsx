@@ -8,7 +8,7 @@ import AiItengration from "./ai-integration";
 
 import { createIssue } from "@/actions/issues";
 
-const CreateBacklog = () => {
+const CreateBacklog = ({projectId}) => {
 
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -378,7 +378,7 @@ const CreateBacklog = () => {
                     </table>
                     <Button
                         className="mt-4"
-                        // onClick={createProductBacklog}
+                        onClick={createProductBacklog}
                         variant="default"
                     >
                         Create Product Backlog
