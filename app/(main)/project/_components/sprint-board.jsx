@@ -9,7 +9,7 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import useFetch from "@/hooks/use-fetch";
 
 import statuses from "@/data/status";
-import { getIssuesForSprint, updateIssueOrder } from "@/actions/issues";
+import { getIssuesForSprint, updateIssue } from "@/actions/issues";
 
 import SprintManager from "./sprint-manager";
 import IssueCreationDrawer from "./create-issue";
@@ -63,10 +63,10 @@ export default function SprintBoard({ sprints, projectId, orgId }) {
   };
 
   const {
-    fn: updateIssueOrderFn,
+    fn: updateIssueFn,
     loading: updateIssuesLoading,
     error: updateIssuesError,
-  } = useFetch(updateIssueOrder);
+  } = useFetch(updateIssue);
 
   const onDragEnd = async (result) => {
     if (currentSprint.status === "PLANNED") {
@@ -134,7 +134,10 @@ export default function SprintBoard({ sprints, projectId, orgId }) {
     const sortedIssues = newOrderedData.sort((a, b) => a.order - b.order);
     setIssues(newOrderedData, sortedIssues);
 
-    updateIssueOrderFn(sortedIssues);
+    // Update the order and status in the database
+    sortedIssues.forEach((issue) => {
+      updateIssueFn(issue.id, { status: issue.status, order: issue.order });
+    });
   };
 
   if (issuesError) return <div>Error loading issues</div>;
@@ -160,8 +163,7 @@ export default function SprintBoard({ sprints, projectId, orgId }) {
       )}
 
       <DragDropContext onDragEnd={onDragEnd}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 bg-[hsl(136,22%,80%,1)] p-4 rounded-lg">
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 bg-[hsl(136,22%,80%,1)] p-4 rounded-lg">
           {statuses.map((column) => (
             <Droppable key={column.key} droppableId={column.key}>
               {(provided) => (

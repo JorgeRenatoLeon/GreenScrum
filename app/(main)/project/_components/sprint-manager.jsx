@@ -94,7 +94,7 @@ export default function SprintManager({
     <>
       <div className="flex justify-between items-center gap-4">
         <Select value={sprint.id} onValueChange={handleSprintChange}>
-        <SelectTrigger style={{ backgroundColor: 'hsl(178.5, 52.96%, 38.6%)' }} className="self-start">
+          <SelectTrigger style={{ backgroundColor: 'hsl(178.5, 52.96%, 38.6%)' }} className="self-start">
             <SelectValue placeholder="Select Sprint" />
           </SelectTrigger>
           <SelectContent style={{ backgroundColor: 'white', color: 'black'}}>
@@ -112,7 +112,6 @@ export default function SprintManager({
             onClick={() => handleStatusChange("ACTIVE")}
             disabled={loading}
             variant="destructive"
-            
           >
             Start Sprint
           </Button>
