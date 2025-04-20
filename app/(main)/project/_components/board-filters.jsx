@@ -33,7 +33,7 @@ export default function BoardFilters({ issues, onFilterChange }) {
   const assignees = issues
     .map((issue) => issue.assignee)
     .filter(
-      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+      (item, index, self) => index === self.findIndex((t) => t && t.id === item.id)
     );
 
   useEffect(() => {

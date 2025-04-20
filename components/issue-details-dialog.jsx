@@ -22,7 +22,7 @@ import {
 import { BarLoader } from "react-spinners";
 import { ExternalLink } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { FaLeaf, FaUser, FaGlobe, FaDollarSign, FaCog } from 'react-icons/fa';
+import { FaLeaf, FaUser, FaDollarSign, FaCog, FaUsers } from 'react-icons/fa';
 
 import statuses from "@/data/status";
 import { deleteIssue, updateIssue } from "@/actions/issues";
@@ -32,7 +32,7 @@ const priorityOptions = ["LOW", "MEDIUM", "HIGH", "URGENT"];
 const dimensionIcons = {
   INDIVIDUAL: <FaUser className="text-blue-500" />,
   ENVIRONMENTAL: <FaLeaf className="text-green-500" />,
-  SOCIAL: <FaGlobe className="text-purple-500" />,
+  SOCIAL: <FaUsers className="text-purple-500" />,
   ECONOMIC: <FaDollarSign className="text-yellow-500" />,
   TECHNICAL: <FaCog className="text-gray-500" />,
 };
@@ -82,9 +82,18 @@ export default function IssueDetailsDialog({
     updateIssueFn(issue.id, { status, priority: newPriority });
   };
 
+  const handleClose = () => {
+    // Set body overflow to auto
+    document.body.style.overflow = "auto";
+    // Reset the scroll position
+    window.scrollTo(0, 0);
+    // Close the dialog
+    onClose();
+  };
+
   useEffect(() => {
     if (deleted) {
-      onClose();
+      handleClose();
       onDelete();
     }
     if (updated) {
@@ -102,7 +111,7 @@ export default function IssueDetailsDialog({
   const isProjectPage = !pathname.startsWith("/project/");
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose} data-color-mode="light">
       <DialogContent>
         <DialogHeader>
           <div className="flex justify-between items-center">
@@ -153,7 +162,7 @@ export default function IssueDetailsDialog({
               </SelectContent>
             </Select>
           </div>
-          <div>
+          <div data-color-mode="light">
             <h4 className="font-semibold">Description</h4>
             <MDEditor.Markdown
               className="rounded px-2 py-1"
@@ -185,14 +194,14 @@ export default function IssueDetailsDialog({
             <h4 className="font-semibold">Sustainability Points</h4>
             <p>{issue.sustainabilityPoints || "--"}</p>
           </div>
-          <div>
+          <div data-color-mode="light">
             <h4 className="font-semibold">Acceptance Criteria</h4>
             <MDEditor.Markdown
               className="rounded px-2 py-1"
               source={issue.acceptanceCriteria ? issue.acceptanceCriteria : "--"}
             />
           </div>
-          <div>
+          <div data-color-mode="light">
             <h4 className="font-semibold">Sustainability Criteria</h4>
             <MDEditor.Markdown
               className="rounded px-2 py-1"

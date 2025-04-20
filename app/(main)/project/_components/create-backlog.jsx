@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import useFetch from "@/hooks/use-fetch";
 
 import { Button } from "@/components/ui/button";
-import AiItengration from "./ai-integration";
+import AiIntegration from "./ai-integration";
 
 import { useRouter } from 'next/navigation';
 
@@ -15,18 +15,16 @@ const CreateBacklog = ({projectId}) => {
     const router = useRouter();
 
     const [currentStep, setCurrentStep] = useState(2);
-
     const [requirements, setRequirements] = useState([]);
     const [requirement, setRequirement] = useState('');
     const [editingIndex, setEditingIndex] = useState(null);
-
     const [issues, setIssues] = useState([]);
     const [editingIssueIndex, setEditingIssueIndex] = useState(null);
     const [editedIssue, setEditedIssue] = useState({});
-
     const [searchText, setSearchText] = useState('');
     const [priorityFilter, setPriorityFilter] = useState('');
     const [dimensionFilter, setDimensionFilter] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // New loading state
 
     const {
       loading: createIssueLoading,
@@ -35,7 +33,7 @@ const CreateBacklog = ({projectId}) => {
       data: newIssue,
     } = useFetch(createIssue);
 
-    const sustainabilityOptions = ["Human", "Technical", "Environmental", "Economic"];
+    const sustainabilityOptions = ["Individual", "Social", "Technical", "Environmental", "Economic"];
 
     const handleAddRequirement = () => {
         if (requirement.trim()) {
@@ -97,26 +95,31 @@ const CreateBacklog = ({projectId}) => {
     };
 
     const createProductBacklog = async () => {
-        // Create product backlog
-        for (let issue of issues) {
-            console.log("Form data being submitted:", issue); // Log the form data to check if sustainabilityDimensions are included
-            // Format issue to db schema and create issue
-            const newIssue = {
-                "assigneeId": null,
-                "description": issue.backlog_description,
-                "priority": issue.priority ? issue.priority.toUpperCase() : "Medium",
-                "sprintId": null,
-                "status": "TODO",
-                "sustainabilityDimensions": issue.sustainability_dimensions.map(dimension => SustainabilityDimension[dimension.toUpperCase()]),
-                "sustainabilityPoints": parseInt(issue.sustainability_points, 10),
-                "storyPoints": parseInt(issue.story_points, 10),
-                "acceptanceCriteria": issue.acceptance_criteria,
-                "sustainabilityCriteria": issue.sustainability_criteria,
-                "title": issue.backlog_title
-            };
-            await createIssueFn(projectId, newIssue);
+        setIsLoading(true); // Show loading overlay
+        try {
+            for (let issue of issues) {
+                console.log("Form data being submitted:", issue);
+                const newIssue = {
+                    "assigneeId": null,
+                    "description": issue.backlog_description,
+                    "priority": issue.priority ? issue.priority.toUpperCase() : "Medium",
+                    "sprintId": null,
+                    "status": "TODO",
+                    "sustainabilityDimensions": issue.sustainability_dimensions.map(dimension => SustainabilityDimension[dimension.toUpperCase()]),
+                    "sustainabilityPoints": parseInt(issue.sustainability_points, 10),
+                    "storyPoints": parseInt(issue.story_points, 10),
+                    "acceptanceCriteria": issue.acceptance_criteria,
+                    "sustainabilityCriteria": issue.sustainability_criteria,
+                    "title": issue.backlog_title
+                };
+                await createIssueFn(projectId, newIssue);
+            }
+            router.refresh();
+        } catch (error) {
+            console.error("Error creating product backlog:", error);
+        } finally {
+            setIsLoading(false); // Hide loading overlay
         }
-        router.refresh();
     };
 
     useEffect(() => {
@@ -135,6 +138,11 @@ const CreateBacklog = ({projectId}) => {
 
     return (
         <>
+        {isLoading && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="text-white text-xl">Generating Backlog...</div>
+            </div>
+        )}
         {
             currentStep === 1 ? (
                 <Button
@@ -142,16 +150,17 @@ const CreateBacklog = ({projectId}) => {
                 onClick={() => setCurrentStep(2)}
                 variant="default"
                 >
-                Create a new Product Backlog
+                    Create a new Product Backlog
                 </Button>
             ) : currentStep === 2 ? (
                 <div className="container mx-auto p-6">
                     <h1 className="text-3xl font-bold mb-6">Product Requirements and SusAF Recommendations</h1>
                     
                     <div className="container mx-auto">
-                        <AiItengration
+                        <AiIntegration
                             requirements={requirements}
                             updateIssues={updateIssues}
+                            setIsLoading={setIsLoading}
                         />
                     </div>
                     <div>
@@ -180,7 +189,7 @@ const CreateBacklog = ({projectId}) => {
                                             type="text"
                                             value={req}
                                             onChange={(e) => handleUpdateRequirement(index, e.target.value)}
-                                            className="border p-2 mr-2"
+                                            className="border p-2 mr-2 w-full"
                                         />
                                     ) : (
                                         req
@@ -248,156 +257,161 @@ const CreateBacklog = ({projectId}) => {
                             ))}
                         </select>
                     </div>
-                    <table className="min-w-full bg-white">
-                        <thead>
-                            <tr>
-                                <th className="py-2">Backlog Title</th>
-                                <th className="py-2">Backlog Description</th>
-                                <th className="py-2">Priority</th>
-                                <th className="py-2">User Story Description</th>
-                                <th className="py-2">Story Points</th>
-                                <th className="py-2">Sustainability Points</th>
-                                <th className="py-2">Acceptance Criteria</th>
-                                <th className="py-2">Sustainability Criteria</th>
-                                <th className="py-2">Sustainability Dimensions</th>
-                                <th className="py-2">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredIssues.map((issue, index) => (
-                                <tr key={index} className="border-t">
-                                    {editingIssueIndex === index ? (
-                                        <>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.backlog_title}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, backlog_title: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.backlog_description}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, backlog_description: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.priority}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, priority: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.userstory_description}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, userstory_description: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.story_points}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, story_points: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.sustainability_points}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, sustainability_points: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.acceptance_criteria}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, acceptance_criteria: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <input
-                                                    type="text"
-                                                    value={editedIssue.sustainability_criteria}
-                                                    onChange={(e) => setEditedIssue({ ...editedIssue, sustainability_criteria: e.target.value })}
-                                                    className="border p-2"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <div className="flex flex-wrap gap-2">
-                                                    {editedIssue.sustainability_dimensions.map((tag, tagIndex) => (
-                                                        <span key={tagIndex} className="bg-gray-200 p-1 rounded">
-                                                            {tag}
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => handleRemoveTag(tag)}
-                                                                className="ml-1 text-red-500"
-                                                            >
-                                                                x
-                                                            </button>
-                                                        </span>
-                                                    ))}
-                                                    <select
-                                                        onChange={(e) => handleAddTag(e.target.value)}
-                                                        className="border p-2"
-                                                    >
-                                                        <option value="">Add Dimension</option>
-                                                        {sustainabilityOptions.map((option, optionIndex) => (
-                                                            <option key={optionIndex} value={option}>
-                                                                {option}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <Button variant="default" onClick={() => handleUpdateIssue(index)}>
-                                                    Save
-                                                </Button>
-                                            </td>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <td className="py-2 px-4">{issue.backlog_title}</td>
-                                            <td className="py-2 px-4">{issue.backlog_description}</td>
-                                            <td className="py-2 px-4">{issue.priority}</td>
-                                            <td className="py-2 px-4">{issue.userstory_description}</td>
-                                            <td className="py-2 px-4">{issue.story_points}</td>
-                                            <td className="py-2 px-4">{issue.sustainability_points}</td>
-                                            <td className="py-2 px-4">{issue.acceptance_criteria}</td>
-                                            <td className="py-2 px-4">{issue.sustainability_criteria}</td>
-                                            <td className="py-2 px-4">
-                                                <div className="flex flex-wrap gap-2">
-                                                    {issue.sustainability_dimensions.map((tag, tagIndex) => (
-                                                        <span key={tagIndex} className="bg-gray-200 p-1 rounded">
-                                                            {tag}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </td>
-                                            <td className="py-2 px-4">
-                                                <Button variant="default" onClick={() => handleEditIssue(index)}>
-                                                    Edit
-                                                </Button>
-                                                <Button variant="default" onClick={() => handleDeleteIssue(index)}>
-                                                    Delete
-                                                </Button>
-                                            </td>
-                                        </>
-                                    )}
+                    {/* Div containing the table so it can be scrollable horizontally if needed */}
+                    <div className="overflow-x-auto max-w-full">
+                        <table className="min-w-full bg-blue-200 border border-gray-400">
+                            <thead>
+                                <tr>
+                                    <th className="py-2">Backlog Title</th>
+                                    <th className="py-2">Backlog Description</th>
+                                    <th className="py-2">Priority</th>
+                                    <th className="py-2">User Story Description</th>
+                                    <th className="py-2">Story Points</th>
+                                    <th className="py-2">Sustainability Points</th>
+                                    <th className="py-2">Acceptance Criteria</th>
+                                    <th className="py-2">Sustainability Criteria</th>
+                                    <th className="py-2">Sustainability Dimensions</th>
+                                    <th className="py-2">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filteredIssues.map((issue, index) => (
+                                    <tr key={index} className="border-t border-gray-400">
+                                        {editingIssueIndex === index ? (
+                                            <>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.backlog_title}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, backlog_title: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.backlog_description}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, backlog_description: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.priority}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, priority: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.userstory_description}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, userstory_description: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.story_points}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, story_points: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.sustainability_points}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, sustainability_points: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.acceptance_criteria}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, acceptance_criteria: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <input
+                                                        type="text"
+                                                        value={editedIssue.sustainability_criteria}
+                                                        onChange={(e) => setEditedIssue({ ...editedIssue, sustainability_criteria: e.target.value })}
+                                                        className="border p-2"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {editedIssue.sustainability_dimensions.map((tag, tagIndex) => (
+                                                            <span key={tagIndex} className="bg-gray-200 p-1 rounded">
+                                                                {tag}
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => handleRemoveTag(tag)}
+                                                                    className="ml-1 text-red-500"
+                                                                >
+                                                                    x
+                                                                </button>
+                                                            </span>
+                                                        ))}
+                                                        <select
+                                                            onChange={(e) => handleAddTag(e.target.value)}
+                                                            className="border p-2"
+                                                        >
+                                                            <option value="">Add Dimension</option>
+                                                            {sustainabilityOptions.map((option, optionIndex) => (
+                                                                <option key={optionIndex} value={option}>
+                                                                    {option}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <Button variant="default" onClick={() => handleUpdateIssue(index)}>
+                                                        Save
+                                                    </Button>
+                                                </td>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <td className="py-2 px-4">{issue.backlog_title}</td>
+                                                <td className="py-2 px-4">{issue.backlog_description}</td>
+                                                <td className="py-2 px-4">{issue.priority}</td>
+                                                <td className="py-2 px-4">{issue.userstory_description}</td>
+                                                <td className="py-2 px-4">{issue.story_points}</td>
+                                                <td className="py-2 px-4">{issue.sustainability_points}</td>
+                                                <td className="py-2 px-4">{issue.acceptance_criteria}</td>
+                                                <td className="py-2 px-4">{issue.sustainability_criteria}</td>
+                                                <td className="py-2 px-4">
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {issue.sustainability_dimensions.map((tag, tagIndex) => (
+                                                            <span key={tagIndex} className="bg-gray-200 p-1 rounded">
+                                                                {tag}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    <div className="flex gap-2 flex-wrap">
+                                                        <Button variant="default" onClick={() => handleEditIssue(index)}>
+                                                            Edit
+                                                        </Button>
+                                                        <Button variant="default" onClick={() => handleDeleteIssue(index)}>
+                                                            Delete
+                                                        </Button>
+                                                    </div>
+                                                </td>
+                                            </>
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                     <Button
                         className="mt-4"
                         onClick={createProductBacklog}

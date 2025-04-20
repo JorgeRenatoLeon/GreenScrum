@@ -98,6 +98,16 @@ export default function IssueCreationDialog({
     });
   };
 
+  const handleClose = () => {
+    reset();
+    // Set body overflow to auto
+    document.body.style.overflow = "auto";
+    // Reset the scroll position
+    window.scrollTo(0, 0);
+    // Close the dialog
+    onClose();
+  };
+
   useEffect(() => {
     if (newIssue) {
       reset();
@@ -108,7 +118,7 @@ export default function IssueCreationDialog({
   }, [newIssue, createIssueLoading]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="overflow-y-auto max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>Create New Issue</DialogTitle>

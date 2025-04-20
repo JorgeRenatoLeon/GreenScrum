@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,11 +17,7 @@ import { createSprint } from "@/actions/sprints";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { PlusIcon } from "lucide-react";
 
-
-
-
-
-export default function SprintCreationForm({
+export default function Dashboard({
   projectTitle,
   projectKey,
   projectId,
@@ -69,6 +65,20 @@ export default function SprintCreationForm({
     setShowForm(false); // Close form after successful submission
     router.refresh(); // Refresh the page to show updated data
   };
+
+  useEffect(() => {
+    if (!sprintKey) {
+      const currentRoute = window.location.pathname;
+      // Extract projectId from the URL is the second last segment
+      // Assuming the URL structure is /project/[projectId]/dashboard
+      const projectIdCurrent = currentRoute.split("/").slice(-2, -1)[0];
+      // Log the current route and projectId
+      // console.log("Current Route:", currentRoute);
+      // console.log("Project ID:", projectIdCurrent);
+      // Redirect to the project page if no sprintKey is provided
+      router.push(`/project/${projectIdCurrent}`);
+    }
+  }, []);
 
   return (
     <>

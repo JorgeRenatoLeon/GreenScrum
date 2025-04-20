@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
       }}
     >
       <html lang="en">
-        <body className={`${inter.className} animated-dotted-background`}>
+        <body className={`${inter.className} animated-dotted-background`} style={{ overflow: "scroll !important" }}>
           <ThemeProvider attribute="class" defaultTheme="light">
             <Header />
             <main className="min-h-screen">{children}</main>

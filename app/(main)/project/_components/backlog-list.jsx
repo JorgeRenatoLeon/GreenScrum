@@ -74,7 +74,7 @@ export default function SprintBoard({ sprints, projectId, orgId }) {
   if (issuesError) return <div>Error loading issues</div>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-3">
       {updateIssuesError && (
         <p className="text-red-500 mt-2">{updateIssuesError.message}</p>
       )}

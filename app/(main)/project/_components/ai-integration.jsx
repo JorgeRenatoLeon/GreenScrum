@@ -6,7 +6,7 @@ import Together from "together-ai";
  
 const together = new Together({ apiKey: "tgp_v1_nND3jC0oQORR5m_warbr66yGqZXEG5Iba3kXu3pEfng"});
  
-export default function TokenInputForm({ requirements, updateIssues }) {
+export default function TokenInputForm({ requirements, updateIssues, setIsLoading }) {
   const [token, setToken] = useState('');
   const [apiData, setApiData] = useState(null);
  
@@ -30,8 +30,10 @@ export default function TokenInputForm({ requirements, updateIssues }) {
  
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     if (!token) {
       alert("Please enter a token");
+      setIsLoading(false);
       return;
     }
  
@@ -45,6 +47,7 @@ export default function TokenInputForm({ requirements, updateIssues }) {
         body: JSON.stringify({ token }),
       });
       if (!response.ok) {
+        setIsLoading(false);
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
@@ -63,8 +66,10 @@ export default function TokenInputForm({ requirements, updateIssues }) {
         } catch (error) {
             console.error("Invalid JSON format:", error);
         }
+      setIsLoading(false);
      
     } catch (error) {
+      setIsLoading(false);
       console.error('Error fetching data:', error);
       alert('Error fetching data. Please check the token and try again.');
     }
@@ -93,7 +98,7 @@ export default function TokenInputForm({ requirements, updateIssues }) {
     const prompt = `
       Generate a sustainability-focused scrum-compliant product backlog items for the corresponding requirements  from the user with SusAF in mind. Each backlog item should focus on enhancing inclusive decision-making, diverse stakeholder engagement, and sustainability-driven planning while maintaining Agile best practices.
  
-      The PBI contains the Title of the requirement, description in the form of user stories, the priority based on the impact, business value, and sustainability aspect, also include the dimensions  aspect as well as i.e. "Human", "Technical", "Environmental", "Economic" into PBI
+      The PBI contains the Title of the requirement, description in the form of user stories, the priority based on the impact, business value, and sustainability aspect, also include the dimensions  aspect as well as i.e. "Individual", "Technical", "Environmental", "Economic" and "Social" into PBI
  
       The backlog should reflect the SusAF and emphasize features that foster sustainability. Each backlog item should be paired with a clear user story written in the format:
  
@@ -151,11 +156,11 @@ export default function TokenInputForm({ requirements, updateIssues }) {
   return (
     <form onSubmit={handleSubmit}>
 
-    <div className="flex justify-start gap-3">
-        <Button type="submit" variant="default" size="lg" className="flex items-center gap-1 my-4">
-          Generate Backlog
-        </Button>
-    </div>
+      <div className="flex justify-start gap-3">
+          <Button type="submit" variant="default" size="lg" className="flex items-center gap-1 my-4">
+            Generate Backlog
+          </Button>
+      </div>
       <div className="relative mb-5 block w-full rounded-xl border border-dashed border-gray-4 bg-gray-2 border-primary dark:border-dark-3 dark:bg-dark-2 dark:hover:border-primary">
         <input
           type="text"
@@ -176,6 +181,6 @@ export default function TokenInputForm({ requirements, updateIssues }) {
           value={JSON.stringify(apiData, null, 2)}
         />
       )}
-    </form>
+  </form>
   );
 }

@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { FaLeaf, FaUser, FaDollarSign, FaCog, FaUsers } from 'react-icons/fa';
 // import { saveReviewResponses } from "@/actions/sprints";
+
+const dimensionIcons = {
+  INDIVIDUAL: <FaUser className="text-blue-500" />,
+  ENVIRONMENTAL: <FaLeaf className="text-green-500" />,
+  SOCIAL: <FaUsers className="text-purple-500" />,
+  ECONOMIC: <FaDollarSign className="text-yellow-500" />,
+  TECHNICAL: <FaCog className="text-gray-500" />,
+};
 
 export default function ReviewPage() {
     const sprintId = "sprint-123"; // Define sprintId directly in the component
@@ -19,7 +27,7 @@ export default function ReviewPage() {
             title: "User Authentication",
             description: "Implement secure login/logout functionality.",
             actions: ["Login", "Signup"],
-            sustainability: ["Technology", "Security"],
+            sustainability: ["TECHNICAL", "ECONOMIC"],
             priority: "High",
         },
         {
@@ -27,7 +35,7 @@ export default function ReviewPage() {
             title: "Dark Mode Support",
             description: "Provide a toggle for dark mode.",
             actions: ["UI", "Accessibility"],
-            sustainability: ["Individual", "Technology"],
+            sustainability: ["INDIVIDUAL", "TECHNICAL"],
             priority: "Medium",
         },
     ]);
@@ -85,24 +93,24 @@ export default function ReviewPage() {
                 <p>No backlog items available.</p>
             ) : (
                 backlogItems.map((item) => (
-                    <Card key={item.id} className="mb-4">
+                    <Card key={item.id} className="mb-4 rounded-xl border text-card-foreground shadow cursor-pointer hover:shadow-md transition-shadow bg-white">
                         <CardContent className="flex flex-col gap-4">
                             {/* Clickable PBI Title */}
                             <div
                                 className="flex justify-between items-center cursor-pointer"
                                 onClick={() => toggleExpand(item.id)}
                             >
-                                <h3 className="text-lg font-semibold text-white hover:underline">
+                                <h3 className="text-lg font-semibold hover:underline">
                                     {item.title}
                                 </h3>
                                 {expandedItems[item.id] ? (
-                                    <ChevronUp className="w-5 h-5 text-white" />
+                                    <ChevronUp className="w-5 h-5" />
                                 ) : (
-                                    <ChevronDown className="w-5 h-5 text-white" />
+                                    <ChevronDown className="w-5 h-5" />
                                 )}
                             </div>
 
-                            <p className="text-white">{item.description}</p>
+                            <p>{item.description}</p>
 
                             <div className="flex gap-2">
                                 {item.actions.map((action, index) => (
@@ -112,9 +120,9 @@ export default function ReviewPage() {
 
                             <div className="flex gap-2">
                                 {item.sustainability.map((tag, index) => (
-                                    <Badge key={index} variant="outline">
-                                        {tag}
-                                    </Badge>
+                                    <span key={index} title={tag}>
+                                        {dimensionIcons[tag]}
+                                    </span>
                                 ))}
                             </div>
 

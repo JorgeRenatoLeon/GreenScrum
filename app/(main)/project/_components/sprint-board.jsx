@@ -136,7 +136,7 @@ export default function SprintBoard({ sprints, projectId, orgId }) {
 
     // Update the order and status in the database
     sortedIssues.forEach((issue) => {
-      updateIssueFn(issue.id, { status: issue.status, order: issue.order });
+      updateIssueFn(issue.id, { status: issue.status, order: issue.order, sprintId: issue.status != 'TODO' ? currentSprint.id : null });
     });
   };
 

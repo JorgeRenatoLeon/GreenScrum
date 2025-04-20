@@ -11,7 +11,13 @@ export async function getIssuesForSprint(sprintId) {
   }
 
   const issues = await db.issue.findMany({
-    where: { sprintId: sprintId },
+    // where sprintId is equal to the sprintId passed in or null
+    where: {
+      OR: [
+        { sprintId: sprintId },
+        { sprintId: null },
+      ],
+    },
     orderBy: [{ status: "asc" }, { order: "asc" }],
     include: {
       assignee: true,

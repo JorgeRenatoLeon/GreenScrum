@@ -13,7 +13,7 @@ import { formatDistanceToNow } from "date-fns";
 import IssueDetailsDialog from "./issue-details-dialog";
 import UserAvatar from "./user-avatar";
 import { useRouter } from "next/navigation";
-import { FaLeaf, FaUser, FaGlobe, FaDollarSign, FaCog } from 'react-icons/fa';
+import { FaLeaf, FaUser, FaDollarSign, FaCog, FaUsers } from 'react-icons/fa';
 
 const priorityColor = {
   LOW: "border-green-600",
@@ -25,7 +25,7 @@ const priorityColor = {
 const dimensionIcons = {
   INDIVIDUAL: <FaUser className="text-blue-500" />,
   ENVIRONMENTAL: <FaLeaf className="text-green-500" />,
-  SOCIAL: <FaGlobe className="text-purple-500" />,
+  SOCIAL: <FaUsers className="text-purple-500" />,
   ECONOMIC: <FaDollarSign className="text-yellow-500" />,
   TECHNICAL: <FaCog className="text-gray-500" />,
 };
